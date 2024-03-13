@@ -10,18 +10,19 @@ class ProductManager {
         this.loadProductsFromFile(); 
         this.createFileIfNotExists();
     }
+    
 
     addProduct(title, descripcion, price, imagen, code, stock) {
         if (!title || !descripcion || !price || !imagen || !code || !stock) {
             console.log("Todos los campos son obligatorios");
             return;
         }
-
+    
         if (this.products.some(item => item.code === code)) {
             console.log("Ya existe un producto con el mismo código");
             return;
         }
-
+    
         const newProduct = {
             id: ++ProductManager.ultId,
             title,
@@ -31,10 +32,16 @@ class ProductManager {
             code,
             stock,
         };
-
-        this.products.push(newProduct);
-        this.saveProductsToFile();
+    
+        try {
+            this.products.push(newProduct);
+            this.saveProductsToFile();
+            console.log("Producto agregado:", newProduct);
+        } catch (err) {
+            console.error("Error al agregar producto:", err);
+        }
     }
+    
 
     getProducts() {
         return this.products;
@@ -108,15 +115,15 @@ class ProductManager {
     }
 
 }
-
 // Proceso de testing
-const manager = new ProductManager('productos.json');
+const manager = new ProductManager();
 
 console.log("Al crear la instancia, getProducts devuelve:", manager.getProducts());
 
-manager.addProduct("Producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
 
-manager.addProduct("Tarjeta grafica", "Tarjeta grafica 8gb", 350, "Sin imagen", "abc124", 10,)
+manager.addProduct("Fuente", "Fuente de 550w", 70, "Sin imagen", "abc126", 5);
+
+manager.addProduct("Fuente", "Fuente de 550w", 70, "Sin imagen", "abc126", 5);
 
 console.log("Después de agregar un producto, getProducts devuelve:", manager.getProducts());
 
