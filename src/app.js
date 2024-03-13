@@ -1,4 +1,4 @@
-/*
+
 const PUERTO = 8080;
 const express = require("express");
 const fs = require("fs");
@@ -50,4 +50,4 @@ app.get("/producto", async (req, res) => {
 
     let productos = products.slice(0, limit);
     res.send(productos);
-}); */
+}); 

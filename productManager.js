@@ -115,21 +115,3 @@ class ProductManager {
     }
 
 }
-// Proceso de testing
-const manager = new ProductManager();
-
-console.log("Al crear la instancia, getProducts devuelve:", manager.getProducts());
-
-
-manager.addProduct("Fuente", "Fuente de 550w", 70, "Sin imagen", "abc126", 5);
-
-manager.addProduct("Fuente", "Fuente de 550w", 70, "Sin imagen", "abc126", 5);
-
-console.log("Después de agregar un producto, getProducts devuelve:", manager.getProducts());
-
-manager.getProductById(1);
-
-manager.updateProduct(1, { price: 250 });
-
-manager.deleteProduct(1);
-
