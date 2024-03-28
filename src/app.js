@@ -1,21 +1,47 @@
 
-const express = require("express");
-const app = express(); 
-const PUERTO = 8080;
-const productsRouter = require("./routes/products.router.js");
-const cartsRouter = require("./routes/carts.router.js");
+    const express = require("express");
+    const app = express(); 
+    const PUERTO = 8080;
+    const exphbs = require("express-handlebars");
+    const socket = require("socket.io");
+    const productsRouter = require("./routes/products.router.js");
+    const cartsRouter = require("./routes/carts.router.js");
+    const viewsRouter = require("./routes/views.router.js");
+
+    app.use(express.json());
+    app.use(express.urlencoded({extended:true}));
+    app.use(express.static("./src/public"));
 
 
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+    app.engine("handlebars", exphbs.engine());
+    app.set("view engine", "handlebars");
+    app.set("views", "./src/views");
 
-app.get("/", (req, res) => {
-    res.send("Funciona");
-})
+    app.use("/api", productsRouter);
+    app.use("/api", cartsRouter);
+    app.use("/", viewsRouter);
 
-app.use("/api", productsRouter);
-app.use("/api", cartsRouter);
 
-app.listen(PUERTO, () => {
-    console.log(`Escuchando en el puerto: ${PUERTO}`);
-})
+    const httpServer = app.listen(PUERTO, () => {
+        console.log(`Escuchando en el puerto: ${PUERTO}`);
+    })
+
+    const io = socket(httpServer);
+
+    const ProductManager = require("./controllers/productManager.js");
+    const productManager = new ProductManager("./src/models/products.json");
+
+    io.on("connection", async (socket) => {
+
+        socket.emit("productos", await productManager.getProducts());
+
+        socket.on("eliminarProducto", async (id) => {
+            await productManager.deleteProduct(id);
+            socket.emit("productos", await productManager.getProducts());
+        })
+
+        socket.on("agregarProducto", async (producto) => {
+            await productManager.addProduct(producto);
+            socket.emit("productos", await productManager.getProducts());
+        })
+    })
