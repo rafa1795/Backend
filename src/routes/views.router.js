@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router(); 
 
-const ProductManager = require("../controllers/productManager.js");
-const productManager = new ProductManager("./src/models/products.json");
+const ProductManager = require("../controllers/productManagerDB.js");
+const productManager = new ProductManager("");
 
 router.get("/",  async (req, res) => {
     try {
@@ -16,6 +16,10 @@ router.get("/",  async (req, res) => {
 
 router.get("/realtimeproducts",  (req, res) => {
     res.render("realtimeproducts");
+})
+
+router.get("/chat", (req, res) =>{
+    res.render("chat");
 })
 
 module.exports = router; 

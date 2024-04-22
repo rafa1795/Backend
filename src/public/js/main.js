@@ -45,3 +45,4 @@ const agregarProducto = () => {
     };
     socket.emit("agregarProducto", producto);
 }
+
