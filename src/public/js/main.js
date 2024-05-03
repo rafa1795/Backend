@@ -11,7 +11,7 @@ const renderProductos = (productos) => {
     productos.forEach(item => {  
         const card = document.createElement("div");
         card.innerHTML = `
-            <p> ID: ${item.id} </p>
+            <p> ID: ${item._id} </p>
             <p> Titulo:  ${item.title} </p>
             <p> Precio: ${item.price} </p>
             <button> Eliminar producto </button>
