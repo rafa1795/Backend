@@ -10,6 +10,9 @@
     const sessionRouter = require("./routes/session.router.js");
     const userRouter = require("./routes/user.router.js");
     require("./database.js");
+    const passport = require("passport");
+    const initializePassport = require("./config/passport.config.js");
+
 
     //midleware
     app.use(express.json());
@@ -20,8 +23,9 @@
         resave: true, 
         saveUninitialized:true,   
     }))
-    
-
+    app.use(passport.initialize())
+    app.use(passport.session())
+    initializePassport()
 
     app.engine("handlebars", exphbs.engine());
     app.set("view engine", "handlebars");
