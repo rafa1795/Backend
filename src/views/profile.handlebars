@@ -1,5 +1,15 @@
+    <nav>
+        <button onclick="window.location.href='/home'">Inicio</button>
+        {{#if user}}
+            <button onclick="window.location.href='/logout'">Logout</button>
+        {{else}}
+            <button onclick="window.location.href='/login'">Login</button>
+        {{/if}}
+    </nav>
+
 <h1>Mi Perfil</h1>
 <p>Bienvenido!, {{user.first_name}} {{user.last_name}}!</p>
 <p>Email: {{user.email}}</p>
 <p>Edad: {{user.age}}</p>
-<a href="/api/sessions/logout">Logout</a>
+<p>Rol: {{user.role}}</p>
+<button><a href="/api/sessions/logout">Logout</a></button>

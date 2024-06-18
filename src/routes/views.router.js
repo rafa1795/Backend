@@ -106,7 +106,7 @@ router.get("/carts/:cid", async (req, res) => {
 router.get("/login", (req, res) => {
 
     if (req.session.login) {
-        return res.redirect("/products");
+        return res.redirect("/home");
     }
 
     res.render("login");
