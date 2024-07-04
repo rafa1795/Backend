@@ -1,33 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
     <nav>
         <button onclick="window.location.href='/profile'">Perfil</button>
-        {{#if user}}
-            <button onclick="window.location.href='/logout'">Logout</button>
+        {{#if isAuthenticated}}
+            <a href="/logout" class="btn btn-danger">Logout</a>
         {{else}}
-            <button onclick="window.location.href='/login'">Login</button>
+            <a href="/login" class="btn btn-primary">Login</a>
         {{/if}}
     </nav>
     
 <h1>Productos</h1>
 
-<div>
-    {{#each productos}}
-        <div class="card">
-            <p> {{title}} </p>
-            <p> {{description}}  </p>
-            <p> {{price}} </p>
-            <p>Category: {{category}} </p>
-            <button> Agregar al Carrito </button>
-        </div>
-    {{/each}}
 </div>
-
-{{#if hasPrevPage}}
-    <a href="/home?page={{prevPage}}">Anterior</a>
-{{/if}}
-
-{{#if hasNextPage}}
-    <a href="/home?page={{nextPage}}">Siguiente</a>
-{{/if}}
-
-<p>Página {{currentPage}} de {{totalPages}} </p>
-
+<div class="container">
+    <div class="row">
+        {{#each productos}}
+        <div class="card col-xl-4 col-md-6 col-sm-12">
+            <img src="{{img}}" alt="" class="card-img-top">
+            <div class="card-body">
+                <h2 class="card-title">{{title}}</h2>
+                <p class="card-text">{{description}}</p>
+                <p class="card-text"> U$D{{price}}</p>
+                <form action="/api/carts/{{../cartId}}/product/{{id}}" method="POST">
+                    <button class="btnMios" type="submit">Agregar al Carrito</button>
+                </form>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
