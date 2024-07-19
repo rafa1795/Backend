@@ -33,25 +33,29 @@ class CartController {
         const userId = req.user._id;
         const productId = req.params.pid;
         const quantity = req.body.quantity || 1;
-
+    
         try {
             let user = await UserModel.findById(userId);
             let cartId = user.cart;
-
+    
             if (!cartId) {
                 const nuevoCarrito = await cartRepository.crearCarrito();
                 user.cart = nuevoCarrito._id;
                 await user.save();
                 cartId = nuevoCarrito._id;
             }
-
+    
             await cartRepository.agregarProducto(cartId, productId, quantity);
-
-            res.redirect(`/carts/${cartId}`);
+    
+            const carritoActualizado = await cartRepository.obtenerProductosDeCarrito(cartId);
+    
+            res.json(carritoActualizado);
         } catch (error) {
+            console.log("Error en agregarProductoEnCarrito:", error);
             res.status(500).send("Error");
         }
     }
+    
 
     async eliminarProductoDeCarrito(req, res) {
         const cartId = req.params.cid;

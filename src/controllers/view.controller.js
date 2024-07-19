@@ -29,6 +29,10 @@ class ViewsController {
             const cartId = req.user && req.user.cart ? req.user.cart.toString() : null;
 
             res.render("products", {
+                user: req.user ? JSON.stringify({
+                    id: req.user._id,
+                    cart: req.user.cart
+                }) : null,
                 productos: nuevoArray,
                 hasPrevPage,
                 hasNextPage,
@@ -109,8 +113,14 @@ class ViewsController {
                 const { _id, ...rest } = producto.toObject();
                 return { id: _id, ...rest };
             });
-    
-            res.render("home", { productos: nuevoArray });
+
+            res.render("home", { 
+                user: req.user ? JSON.stringify({
+                    id: req.user._id,
+                    cart: req.user.cart
+                }) : null,
+                productos: nuevoArray 
+            });
         } catch (error) {
             console.error("Error al obtener productos", error);
             res.status(500).json({
@@ -120,6 +130,5 @@ class ViewsController {
         }
     }
 }
-
 
 module.exports = ViewsController;

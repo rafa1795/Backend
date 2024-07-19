@@ -25,7 +25,7 @@ initializePassport();
 app.use(cookieParser());
 
 // AuthMiddleware
-const authMiddleware = require("./middleware/authmiddleware.js");
+const authMiddleware = require("./middleware/authMiddleware.js");
 app.use(authMiddleware);
 
 app.use((req, res, next) => {
@@ -47,10 +47,7 @@ app.set("views", "./src/views");
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/users", userRouter);
-app.use("/", (req, res, next) => {
-    res.locals.user = req.user ? JSON.stringify(req.user) : null;
-    next();
-}, viewsRouter);
+app.use("/", viewsRouter);
 
 const httpServer = app.listen(PUERTO, () => {
     console.log(`Servidor escuchando en el puerto ${PUERTO}`);

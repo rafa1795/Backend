@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const CartController = require("../controllers/cart.controller.js");
-const authMiddleware = require("../middleware/authmiddleware.js");
+const authMiddleware = require("../middleware/authMiddleware.js");
 const cartController = new CartController();
+const passport = require('passport');
 
 router.use(authMiddleware);
 
 router.post("/", cartController.nuevoCarrito);
 router.get("/:cid", cartController.obtenerProductosDeCarrito);
-router.post('/:cid/product/:pid', cartController.agregarProductoEnCarrito);
+router.post('/:cid/product/:pid', passport.authenticate('jwt', { session: false }), cartController.agregarProductoEnCarrito);
 router.delete('/:cid/product/:pid', cartController.eliminarProductoDeCarrito);
 router.put('/:cid', cartController.actualizarProductosEnCarrito);
 router.put('/:cid/product/:pid', cartController.actualizarCantidad);

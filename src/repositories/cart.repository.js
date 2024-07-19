@@ -1,4 +1,5 @@
 const CartModel = require("../models/cart.model.js");
+const ProductModel = require("../models/product.model.js");
 
 class CartRepository {
     async crearCarrito() {
@@ -13,7 +14,7 @@ class CartRepository {
 
     async obtenerProductosDeCarrito(idCarrito) {
         try {
-            const carrito = await CartModel.findById(idCarrito);
+            const carrito = await CartModel.findById(idCarrito).populate('products.product', 'title price');
             if (!carrito) {
                 console.log("No existe ese carrito con el id");
                 return null;
@@ -26,24 +27,39 @@ class CartRepository {
 
     async agregarProducto(cartId, productId, quantity = 1) {
         try {
+            console.log("Cart ID:", cartId);
+            console.log("Product ID:", productId);
+            console.log("Quantity:", quantity);
+            
             const carrito = await this.obtenerProductosDeCarrito(cartId);
+            console.log("Carrito:", carrito);
+            
+            const producto = await ProductModel.findById(productId);
+            console.log("Producto:", producto);
+        
+            if (!producto) {
+            throw new Error("Producto no encontrado");
+            }
+        
             const existeProducto = carrito.products.find(item => item.product.toString() === productId);
-    
+        
             if (existeProducto) {
                 existeProducto.quantity += quantity;
             } else {
-                carrito.products.push({ product: productId, quantity });
+            carrito.products.push({
+                product: productId,
+                quantity
+                });
             }
-    
-            carrito.markModified("products");
 
-            await carrito.save();
-            return carrito;
-        } catch (error) {
-            throw new Error("Error al agregar producto al carrito");
+                carrito.markModified("products");
+                await carrito.save();
+                return carrito;
+            } catch (error) {
+                console.error("Error:", error);
+                throw new Error("Error al agregar producto al carrito");
+            }
         }
-    }
-    
 
     async eliminarProducto(cartId, productId) {
         try {
@@ -82,16 +98,13 @@ class CartRepository {
             const cart = await CartModel.findById(cartId);
 
             if (!cart) {
-                
                 throw new Error('Carrito no encontrado');
             }
-            
-            
+
             const productIndex = cart.products.findIndex(item => item._id.toString() === productId);
-        
+
             if (productIndex !== -1) {
                 cart.products[productIndex].quantity = newQuantity;
-
 
                 cart.markModified('products');
 
