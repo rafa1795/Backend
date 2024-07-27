@@ -1,18 +1,23 @@
-const passport = require('passport');
+const jwt = require("jsonwebtoken");
 
 function authMiddleware(req, res, next) {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    const token = req.cookies.coderCookieToken;
+    if (!token) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+    jwt.verify(token, "coderhouse", (err, decoded) => {
         if (err) {
-            return next(err);
+            return res.status(401).json({ message: "Unauthorized" });
         }
-        if (!user) {
-            req.user = null;
-        } else {
-            req.user = user;
-        }
+        req.user = decoded.user;
         next();
-    })(req, res, next);
+    });
 }
 
 module.exports = authMiddleware;
+
+
+
+
+
 

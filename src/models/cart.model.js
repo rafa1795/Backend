@@ -8,7 +8,7 @@ const cartSchema = new mongoose.Schema({
         ref: 'Productos',
         required: true
       },
-      name: {
+      title: {
         type: String,
         required: true
       },
@@ -29,6 +29,7 @@ cartSchema.pre('findOne', function (next) {
   next();
 });
 
-const CartModel = mongoose.model("carts", cartSchema);
+const CartModel = mongoose.model("Cart", cartSchema);
 
 module.exports = CartModel;
+

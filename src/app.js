@@ -12,31 +12,20 @@ const productsRouter = require("./routes/products.router.js");
 const cartsRouter = require("./routes/carts.router.js");
 const viewsRouter = require("./routes/views.router.js");
 const userRouter = require("./routes/user.router.js");
+require('./models/cart.model');
+require('./models/user.model');
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
-
-// Passport
+app.use(cookieParser());
 app.use(passport.initialize());
 initializePassport();
-app.use(cookieParser());
 
 // AuthMiddleware
 const authMiddleware = require("./middleware/authMiddleware.js");
-app.use(authMiddleware);
-
-app.use((req, res, next) => {
-    if (req.isAuthenticated()) {
-        req.user = {
-            id: 'user123',
-            cart: 'cart456'
-        };
-    }
-    next();
-});
 
 // Handlebars
 app.engine("handlebars", exphbs.engine());
@@ -56,3 +45,6 @@ const httpServer = app.listen(PUERTO, () => {
 // Websockets
 const SocketManager = require("./sockets/socketmanager.js");
 new SocketManager(httpServer);
+
+
+

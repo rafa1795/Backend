@@ -6,28 +6,28 @@ class ViewsController {
     async renderProducts(req, res) {
         try {
             const { page = 1, limit = 3 } = req.query;
-
+    
             const skip = (page - 1) * limit;
-
+    
             const productos = await ProductModel
                 .find()
                 .skip(skip)
                 .limit(limit);
-
+    
             const totalProducts = await ProductModel.countDocuments();
-
+    
             const totalPages = Math.ceil(totalProducts / limit);
-
+    
             const hasPrevPage = page > 1;
             const hasNextPage = page < totalPages;
-
+    
             const nuevoArray = productos.map(producto => {
                 const { _id, ...rest } = producto.toObject();
                 return { id: _id, ...rest }; 
             });
-
+    
             const cartId = req.user && req.user.cart ? req.user.cart.toString() : null;
-
+    
             res.render("products", {
                 user: req.user ? JSON.stringify({
                     id: req.user._id,
@@ -42,7 +42,7 @@ class ViewsController {
                 totalPages,
                 cartId
             });
-
+    
         } catch (error) {
             console.error("Error al obtener productos", error);
             res.status(500).json({
@@ -132,3 +132,4 @@ class ViewsController {
 }
 
 module.exports = ViewsController;
+

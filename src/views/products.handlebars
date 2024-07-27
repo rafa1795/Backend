@@ -1,28 +1,25 @@
 <div class="d-flex justify-content-center align-items-center">
     <h1 class="text-center">Productos</h1>
     <a href="/carts/{{cartId}}" class="ms-5">
-    <i class="bi bi-cart cart-icon"></i>
+        <i class="bi bi-cart cart-icon"></i>
     </a>
-
 </div>
 <div class="container">
     <div class="row">
         {{#each productos}}
-            <div class="card col-xl-4 col-md-6 col-sm-12">
-                <img src="{{img}}" alt="" class="card-img-top">
-                <div class="card-body">
-                    <h2 class="card-title">{{title}}</h2>
-                    <p class="card-text">{{description}}</p>
-                    <p class="card-text">U$D {{price}}</p>
-                    <button class="btnMios add-to-cart" data-product-id="{{_id}}">Agregar al Carrito</button>
-                </div>
+        <div class="card col-xl-4 col-md-6 col-sm-12">
+            <img src="{{img}}" alt="" class="card-img-top">
+            <div class="card-body">
+                <h2 class="card-title">{{title}}</h2>
+                <p class="card-text">{{description}}</p>
+                <p class="card-text">U$D {{price}}</p>
+                <p class="card-text">ID del producto: {{_id}}</p>
+                <button class="btnMios add-to-cart-button" data-product-id="{{_id}}">Agregar al Carrito</button>
             </div>
+        </div>
         {{/each}}
     </div>
 </div>
-
-
-
 
 
 <div class="container mt-3">
@@ -36,3 +33,9 @@
         <p>Pagina {{currentPage}} de {{totalPages}} </p>
     </div>
 </div>
+
+
+
+
+
+

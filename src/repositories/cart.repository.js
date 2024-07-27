@@ -27,18 +27,11 @@ class CartRepository {
 
     async agregarProducto(cartId, productId, quantity = 1) {
         try {
-            console.log("Cart ID:", cartId);
-            console.log("Product ID:", productId);
-            console.log("Quantity:", quantity);
-            
             const carrito = await this.obtenerProductosDeCarrito(cartId);
-            console.log("Carrito:", carrito);
-            
             const producto = await ProductModel.findById(productId);
-            console.log("Producto:", producto);
         
             if (!producto) {
-            throw new Error("Producto no encontrado");
+                throw new Error("Producto no encontrado");
             }
         
             const existeProducto = carrito.products.find(item => item.product.toString() === productId);
@@ -46,20 +39,22 @@ class CartRepository {
             if (existeProducto) {
                 existeProducto.quantity += quantity;
             } else {
-            carrito.products.push({
-                product: productId,
-                quantity
+                carrito.products.push({
+                    product: productId,
+                    title: producto.title,
+                    price: producto.price,
+                    quantity
                 });
             }
 
-                carrito.markModified("products");
-                await carrito.save();
-                return carrito;
-            } catch (error) {
-                console.error("Error:", error);
-                throw new Error("Error al agregar producto al carrito");
-            }
+            carrito.markModified("products");
+            await carrito.save();
+            return carrito;
+        } catch (error) {
+            console.error("Error:", error);
+            throw new Error("Error al agregar producto al carrito");
         }
+    }
 
     async eliminarProducto(cartId, productId) {
         try {
@@ -140,3 +135,9 @@ class CartRepository {
 }
 
 module.exports = CartRepository;
+
+
+
+
+
+
