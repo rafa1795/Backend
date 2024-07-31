@@ -1,41 +1,49 @@
-<div class="d-flex justify-content-center align-items-center">
-    <h1 class="text-center">Productos</h1>
-    <a href="/carts/{{cartId}}" class="ms-5">
-        <i class="bi bi-cart cart-icon"></i>
-    </a>
-</div>
-<div class="container">
-    <div class="row">
-        {{#each productos}}
-        <div class="card col-xl-4 col-md-6 col-sm-12">
-            <img src="{{img}}" alt="" class="card-img-top">
-            <div class="card-body">
-                <h2 class="card-title">{{title}}</h2>
-                <p class="card-text">{{description}}</p>
-                <p class="card-text">U$D {{price}}</p>
-                <p class="card-text">ID del producto: {{_id}}</p>
-                <button class="btnMios add-to-cart-button" data-product-id="{{_id}}">Agregar al Carrito</button>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Products</title>
+        <script src="js/cart.js"></script>
+    </head>
+    <body>
+
+        <div class="d-flex justify-content-center align-items-center">
+            <h1 class="text-center">Productos</h1>
+            <a href="/carts/{{cartId}}" class="ms-5">
+            <i class="bi bi-cart cart-icon"></i>
+            </a>
+        </div>
+        <div class="container">
+            <div class="row">
+                {{#each productos}}
+                <div class="card col-xl-4 col-md-6 col-sm-12">
+                    <img src="{{img}}" alt="" class="card-img-top">
+                    <div class="card-body">
+                        <h2 class="card-title">{{title}}</h2>
+                        <p class="card-text">{{description}}</p>
+                        <p class="card-text">U$D {{price}}</p>
+                        <button class="btnMios add-to-cart-button" data-product-id="{{id}}">Agregar al Carrito</button>
+                    </div>
+                </div>
+                {{/each}}
             </div>
         </div>
-        {{/each}}
-    </div>
-</div>
 
+        <div class="container mt-3">
+            <div class="row text-center">
+                {{#if hasPrevPage}}
+                <a href="/products?page={{prevPage}}"> Anterior </a>
+                {{/if}}
+                {{#if hasNextPage}}
+                <a href="/products?page={{nextPage}}"> Siguiente </a>
+                {{/if}}
+                <p>Pagina {{currentPage}} de {{totalPages}} </p>
+            </div>
+        </div>
 
-<div class="container mt-3">
-    <div class="row text-center">
-        {{#if hasPrevPage}}
-        <a href="/products?page={{prevPage}}"> Anterior </a>
-        {{/if}}
-        {{#if hasNextPage}}
-        <a href="/products?page={{nextPage}}"> Siguiente </a>
-        {{/if}}
-        <p>Pagina {{currentPage}} de {{totalPages}} </p>
-    </div>
-</div>
-
-
-
+    </body>
+</html>
 
 
 

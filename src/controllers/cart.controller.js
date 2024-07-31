@@ -30,32 +30,28 @@ class CartController {
     }
 
     async agregarProductoEnCarrito(req, res) {
-        const cartId = req.params.cid;
-        const productId = req.params.pid;
-        const quantity = req.body.quantity || 1;
-
         try {
-            const cart = await CartModel.findById(cartId);
-            if (!cart) {
-                return res.status(404).json({ error: "Carrito no encontrado" });
+            const cartId = req.params.cid;
+            const productId = req.params.pid;
+
+            if (!cartId || !productId) {
+                return res.status(400).json({ message: "Cart ID and Product ID are required" });
             }
 
-            const product = await ProductModel.findById(productId);
+            const product = await productRepository.getProductById(productId);
             if (!product) {
-                return res.status(404).json({ error: "Producto no encontrado" });
+                return res.status(404).json({ message: "Product not found" });
             }
 
-            const existingProductIndex = cart.products.findIndex(p => p.product.toString() === productId);
-            if (existingProductIndex !== -1) {
-                cart.products[existingProductIndex].quantity += quantity;
-            } else {
-                cart.products.push({ product: productId, quantity });
+            const carritoActualizado = await cartRepository.agregarProducto(cartId, productId);
+            if (!carritoActualizado) {
+                return res.status(500).json({ message: "Failed to add product to cart" });
             }
 
-            await cart.save();
-            res.json(cart);
+            res.status(200).json({ message: "Product added to cart", cart: carritoActualizado });
         } catch (error) {
-            res.status(500).send("Error al agregar producto al carrito");
+            console.error("Error en agregarProductoEnCarrito:", error);
+            res.status(500).json({ message: "Error al agregar producto al carrito" });
         }
     }
 
