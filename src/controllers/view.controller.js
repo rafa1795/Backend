@@ -78,7 +78,7 @@ class ViewsController {
                 };
             });
 
-            res.render("carts", { productos: productosEnCarrito, totalCompra, cartId });
+            res.render("cart", { productos: productosEnCarrito, totalCompra, cartId });
         } catch (error) {
             console.error("Error al obtener el carrito", error);
             res.status(500).json({ error: "Error interno del servidor" });
@@ -132,4 +132,5 @@ class ViewsController {
 }
 
 module.exports = ViewsController;
+
 

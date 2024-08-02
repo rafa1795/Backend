@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/cart.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+
 <h1 class="text-center">Carrito de Compras</h1>
 
 <div class="container">
@@ -8,15 +19,15 @@
             <p class="card-text">Cantidad: {{this.quantity}}</p>
             <p class="card-text">Precio: ${{this.product.totalPrice}}</p>
             <button onclick="eliminarProducto('{{this.cartId}}', '{{this.product._id}}')"
-                class="btn btn-danger">Eliminar</button>
+                class="btn btn-warning">Eliminar</button>
         </div>
     </div>
     {{/each}}
 </div>
 
-<button onclick="vaciarCarrito('{{cartId}}')" class="btn btn-danger">Vaciar Carrito</button>
+<button onclick="vaciarCarrito('{{cartId}}')" class="btn btn-warning">Vaciar Carrito</button>
 <h3 class="mt-2">Total de la compra: ${{totalCompra}}</h3>
-
+<button id="boton-comprar" class="btn btn-warning btn-lg">Comprar</button>
 <script>
     function eliminarProducto(cartId, productId) {
         fetch(`/api/carts/${cartId}/product/${productId}`, {
@@ -48,3 +59,5 @@
             });
     }
 </script>
+</body>
+</html>
