@@ -53,11 +53,10 @@ async function confirmarCompra(event) {
     return;
   }
 
-  // Confirmación de compra
   const confirmacion = confirm("¿Estás seguro de que deseas realizar la compra?");
 
   if (!confirmacion) {
-    return; // Si el usuario cancela, no hacemos nada.
+    return;
   }
 
   try {

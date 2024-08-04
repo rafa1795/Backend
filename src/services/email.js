@@ -7,7 +7,7 @@ class EmailManager {
             port: 587,
             auth: {
                 user: "rafaelsantagata11@gmail.com",
-                pass: "norp renb afxw uxyq"
+                pass: "ggiw nsok ykwa uhgn"
             }
         });
     }
@@ -22,11 +22,11 @@ class EmailManager {
                     <h1>Confirmación de compra</h1>
                     <p>Gracias por tu compra, ${first_name}!</p>
                     <p>El número de tu orden es: ${ticket}</p>
-    
                 `
             };
 
             await this.transporter.sendMail(mailOptions);
+            console.log('Correo de compra enviado exitosamente');
         } catch (error) {
             console.error('Error al enviar el correo electrónico:', error);
         }
@@ -49,7 +49,7 @@ class EmailManager {
             };
 
             await this.transporter.sendMail(mailOptions);
-            
+            console.log('Correo de restablecimiento enviado exitosamente');
         } catch (error) {
             console.error('Error al enviar el correo electrónico:', error);
         }
@@ -57,3 +57,4 @@ class EmailManager {
 }
 
 module.exports = EmailManager;
+

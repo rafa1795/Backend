@@ -1,4 +1,4 @@
-const Product = require('../models/product.model');
+const ProductModel = require('../models/product.model.js');
 
 class ProductRepository {
     async obtenerProductos() {
@@ -6,19 +6,28 @@ class ProductRepository {
     }
 
     async getProductById(id) {
-        return await Product.findById(id);
+        return await ProductModel.findById(id);
+    }
+
+    async obtenerProductoPorId(productId) {
+        try {
+            return await ProductModel.findById(productId);
+        } catch (error) {
+            console.error('Error al obtener el producto por ID:', error);
+            throw error;
+        }
     }
 
     async addProduct(product) {
-        return await Product.create(product);
+        return await ProductModel.create(product);
     }
 
     async updateProduct(id, product) {
-        return await Product.findByIdAndUpdate(id, product, { new: true });
+        return await ProductModel.findByIdAndUpdate(id, product, { new: true });
     }
 
     async deleteProduct(id) {
-        return await Product.findByIdAndDelete(id);
+        return await ProductModel.findByIdAndDelete(id);
     }
 }
 
