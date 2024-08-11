@@ -129,6 +129,16 @@ class ViewsController {
             });
         }
     }
+
+    renderCheckout(req, res) {
+        try {
+            res.render('checkout'); 
+        } catch (error) {
+            console.error('Error al renderizar la página de checkout:', error);
+            res.status(500).send('Error al renderizar la página de checkout');
+        }
+    }
+
 }
 
 module.exports = ViewsController;

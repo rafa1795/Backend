@@ -5,6 +5,8 @@ const cartRepository = new CartRepository();
 const ProductRepository = require("../repositories/product.repository.js");
 const productRepository = new ProductRepository();
 const { generateUniqueCode, calcularTotal } = require("../utils/cartutils.js");
+const EmailManager = require('../services/email');
+const emailManager = new EmailManager();
 
 class CartController {
     async nuevoCarrito(req, res) {
@@ -121,12 +123,12 @@ class CartController {
         try {
             const cart = await cartRepository.obtenerProductosDeCarrito(cartId);
             const products = cart.products;
-
+    
             const productosNoDisponibles = [];
-
+    
             for (const item of products) {
                 const productId = item.product;
-                const product = await productRepository.obtenerProductoPorId(productId);
+                const product = await productRepository.getProductById(productId);
                 if (product.stock >= item.quantity) {
                     product.stock -= item.quantity;
                     await product.save();
@@ -134,9 +136,9 @@ class CartController {
                     productosNoDisponibles.push(productId);
                 }
             }
-
+    
             const userWithCart = await UserModel.findOne({ cart: cartId });
-
+    
             const ticket = new TicketModel({
                 code: generateUniqueCode(),
                 purchase_datetime: new Date(),
@@ -145,16 +147,32 @@ class CartController {
             });
             await ticket.save();
 
-            cart.products = cart.products.filter(item => productosNoDisponibles.some(productId => productId.equals(item.product)));
-
+            try {
+                await emailManager.enviarCorreoCompra(userWithCart.email, userWithCart.first_name, ticket.code);
+            } catch (error) {
+                console.error('Error al enviar el correo:', error);
+            }
+    
+            cart.products = cart.products.filter(item => 
+                productosNoDisponibles.some(productId => productId.equals(item.product))
+            );
+    
             await cart.save();
-
-            res.status(200).json({ productosNoDisponibles });
+    
+            res.json({
+                mensaje: 'Compra realizada con éxito',
+                nombre: userWithCart.first_name,
+                email: userWithCart.email,
+                numeroOrden: ticket.code,
+                productosNoDisponibles
+            });
+    
         } catch (error) {
             console.error('Error al procesar la compra:', error);
             res.status(500).json({ error: 'Error interno del servidor' });
         }
     }
+    
 }
 
 module.exports = CartController;

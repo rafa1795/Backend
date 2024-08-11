@@ -5,9 +5,13 @@ class EmailManager {
         this.transporter = nodemailer.createTransport({
             service: 'gmail',
             port: 587,
+            secure: false, 
             auth: {
                 user: "rafaelsantagata11@gmail.com",
-                pass: "ggiw nsok ykwa uhgn"
+                pass: "gxjz pkkw ynyb kirc"
+            },
+            tls: {
+                rejectUnauthorized: false 
             }
         });
     }
@@ -15,7 +19,7 @@ class EmailManager {
     async enviarCorreoCompra(email, first_name, ticket) {
         try {
             const mailOptions = {
-                from: "Coder Test <rafaelsantagata11@gmail.com>",
+                from: "Compra realizada <rafaelsantagata11@gmail.com>",
                 to: email,
                 subject: 'Confirmación de compra',
                 html: `
@@ -31,30 +35,8 @@ class EmailManager {
             console.error('Error al enviar el correo electrónico:', error);
         }
     }
-
-    async enviarCorreoRestablecimiento(email, first_name, token) {
-        try {
-            const mailOptions = {
-                from: "Coder Test <rafaelsantagata11@gmail.com>",
-                to: email,
-                subject: 'Restablecimiento de contraseña',
-                html: `
-                    <h1>Restablecimiento de Contraseña</h1>
-                    <p>Hola ${first_name}!</p>
-                    <p>Pediste restablecer tu contraseña. Te enviamos el código de confirmacion</p>
-                    <strong> ${token} </strong>
-                    <p> Este código expira en una hora </p>
-                    <a href="http://localhost:8080/password"> Restablecer Contraseña </a>
-                `
-            };
-
-            await this.transporter.sendMail(mailOptions);
-            console.log('Correo de restablecimiento enviado exitosamente');
-        } catch (error) {
-            console.error('Error al enviar el correo electrónico:', error);
-        }
-    }
 }
 
 module.exports = EmailManager;
+
 

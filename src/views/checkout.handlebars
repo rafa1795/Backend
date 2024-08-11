@@ -1,9 +1,19 @@
-<div class="formulario">
-    <h1>Checkout</h1>
-    <p>¡Gracias por tu compra <span>{{cliente}}</span>! El número de orden es: <span> {{numTicket}} </span> </p>
-    <p> Te enviaremos un e-mail a <span> {{email}} </span> con toda la información de tu orden </p>
-     <div class="grupo-btn">
-        <a class="btnMios noSub" href="/products">Tienda</a>
-        <a class="btnMios noSub" href="/api/users/profile">Mi Perfil</a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Compra</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Compra Confirmada</h1>
+        <p>Gracias por tu compra, <strong>{{nombre}}</strong>!</p>
+        <p>Tu número de orden es: <strong>{{numeroOrden}}</strong></p>
+        <p>Un correo de confirmación ha sido enviado a: <strong>{{email}}</strong></p>
     </div>
-</div>
+            <a class="btnMios noSub" href="/products">Tienda</a>
+        <a class="btnMios noSub" href="/api/users/profile">Mi Perfil</a>
+</body>
+</html>

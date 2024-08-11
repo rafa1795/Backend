@@ -28,6 +28,8 @@ router.get("/chat",
 
 router.get("/", viewsController.renderHome);
 
+router.get('/checkout', viewsController.renderCheckout);
+
 module.exports = router;
 
 

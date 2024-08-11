@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { createHash, isValidPassword } = require("../utils/hashbcryp.js");
 const UserDTO = require("../dto/user.dto.js");
 const CartModel = require("../models/cart.model");
+const { EmailManager } = require('../services/email');
 
 class UserController {
     async login(req, res) {
@@ -94,9 +95,11 @@ class UserController {
         }
         res.render("admin");
     }
+
 }
 
 module.exports = UserController;
+
 
 
 
