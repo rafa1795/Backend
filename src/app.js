@@ -3,19 +3,30 @@ const app = express();
 const handlebars = require("express-handlebars");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
+const { default: mongoose } = require("mongoose");
 const initializePassport = require("./config/passport.config.js");
 const cors = require("cors");
 const path = require('path');
-const PUERTO = 8080;
-require("./database.js");
 const productsRouter = require("./routes/products.router.js");
 const cartsRouter = require("./routes/carts.router.js");
 const viewsRouter = require("./routes/views.router.js");
 const userRouter = require("./routes/user.router.js");
 require('./models/cart.model');
 require('./models/user.model');
-const dotenv = require("dotenv");
 
+
+const dotenv = require('dotenv');
+dotenv.config({ path: './src/.env' });
+const PORT = process.env.PORT || 8080;
+
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log('Conexión exitosa a MongoDB');
+}).catch((error) => {
+    console.error('Error al conectar a MongoDB:', error);
+});
 
 
 // Middleware
@@ -71,13 +82,12 @@ app.use("/api/carts", cartsRouter);
 app.use("/api/users", userRouter);
 app.use("/", viewsRouter);
 
-const httpServer = app.listen(PUERTO, () => {
-    console.log(`Servidor escuchando en el puerto ${PUERTO}`);
+const httpServer = app.listen(PORT, () => {
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
 
 // Websockets
 const SocketManager = require("./sockets/socketmanager.js");
-const { default: mongoose } = require("mongoose");
 new SocketManager(httpServer);
 
 
