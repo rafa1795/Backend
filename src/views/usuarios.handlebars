@@ -1,0 +1,36 @@
+<h1>Gestión de Usuarios</h1>
+
+{{#if isAdmin}}
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each usuarios}}
+        <tr>
+            <td>{{this.first_name}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.role}}</td>
+            <td>
+                <form action="/api/users/usuarios/cambiar-rol/{{this._id}}" method="POST">
+                    <select name="newRole">
+                        <option value="usuario" {{#ifCond this.role '==' 'usuario'}}selected{{/ifCond}}>User</option>
+                        <option value="admin" {{#ifCond this.role '==' 'admin'}}selected{{/ifCond}}>Admin</option>
+                    </select>
+                    <button type="submit">Cambiar Rol</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+<p>No tienes permisos para acceder a esta página.</p>
+{{/if}}
+
+

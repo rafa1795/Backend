@@ -96,6 +96,35 @@ class UserController {
         res.render("admin");
     }
 
+    async obtenerUsuarios(req, res) {
+        try {
+            const usuarios = await UserModel.find({}, 'first_name email role');
+            res.json(usuarios);
+        } catch (error) {
+            res.status(500).json({ error: 'Error al obtener usuarios' });
+        }
+    }
+
+    async renderUsuarios(req, res) {
+        try {
+            const usuarios = await UserModel.find({}, 'first_name email role');
+            res.render('usuarios', { usuarios, isAdmin: req.user.role === 'admin' });
+        } catch (error) {
+            res.status(500).json({ error: 'Error al obtener usuarios' });
+        }
+    }
+    
+    async cambiarRol(req, res) {
+        try {
+            const { id } = req.params;
+            const { newRole } = req.body;
+            await UserModel.findByIdAndUpdate(id, { role: newRole });
+            res.redirect('/api/users');
+        } catch (error) {
+            res.status(500).json({ error: 'Error al cambiar el rol del usuario' });
+        }
+    }
+
 }
 
 module.exports = UserController;

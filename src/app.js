@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const exphbs = require("express-handlebars");
+const handlebars = require("express-handlebars");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const initializePassport = require("./config/passport.config.js");
@@ -14,6 +14,9 @@ const viewsRouter = require("./routes/views.router.js");
 const userRouter = require("./routes/user.router.js");
 require('./models/cart.model');
 require('./models/user.model');
+const dotenv = require("dotenv");
+
+
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -28,7 +31,37 @@ initializePassport();
 const authMiddleware = require("./middleware/authMiddleware.js");
 
 // Handlebars
-app.engine("handlebars", exphbs.engine());
+app.engine("handlebars", handlebars.engine({
+    defaultLayout: 'main',
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true,
+    },
+    helpers: {
+        ifCond: function (v1, operator, v2, options) {
+            switch (operator) {
+                case '==':
+                    return (v1 == v2) ? options.fn(this) : options.inverse(this);
+                case '===':
+                    return (v1 === v2) ? options.fn(this) : options.inverse(this);
+                case '!=':
+                    return (v1 != v2) ? options.fn(this) : options.inverse(this);
+                case '!==':
+                    return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+                case '<':
+                    return (v1 < v2) ? options.fn(this) : options.inverse(this);
+                case '<=':
+                    return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+                case '>':
+                    return (v1 > v2) ? options.fn(this) : options.inverse(this);
+                case '>=':
+                    return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+                default:
+                    return options.inverse(this);
+            }
+        }
+    }
+}));
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
 
@@ -44,6 +77,7 @@ const httpServer = app.listen(PUERTO, () => {
 
 // Websockets
 const SocketManager = require("./sockets/socketmanager.js");
+const { default: mongoose } = require("mongoose");
 new SocketManager(httpServer);
 
 

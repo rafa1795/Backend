@@ -1,19 +1,11 @@
 const ProductRepository = require('../repositories/product.repository.js');
-const { generateMockProducts } = require('../utils/mocking');
+
 
 class ProductController {
     constructor() {
         this.productRepository = new ProductRepository();
     }
 
-    async mockingProducts(req, res) {
-        try {
-            const mockProducts = generateMockProducts(100);
-            res.status(200).json(mockProducts);
-        } catch (error) {
-            res.status(500).send({ error: 'Error al generar productos de prueba' });
-        }
-    }
 
     async obtenerProductos(req, res) {
         try {
