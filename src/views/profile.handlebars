@@ -1,18 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/main.css">
+  <title>Document</title>
+</head>
+<body>
+  
+  <h1>Mi Perfil</h1>
 
-<h1>Mi Perfil</h1>
+  <div class="profile-card">
+    <p>Bienvenido, {{user.nombre}} {{user.apellido}}!</p>
+    <p>Rol: {{user.role}}</p>
 
-<div class="profile-card">
-  <p>Bienvenido, {{user.nombre}} {{user.apellido}}!</p>
-  <p>Rol: {{user.role}}</p>
+    <form action="/api/users/logout" method="POST">
+      <button class="btnMios" type="submit">Logout</button>
+    </form>
+    <br>
 
-  <form action="/api/users/logout" method="POST">
-    <button class="btnMios" type="submit">Logout</button>
-  </form>
-
-  {{#if this.isAdmin}}
-    <a class="btnMios" href="/realtimeproducts">Modificar Productos</a>
-  {{else}}
-    <a class="btnMios" href="/chat">Chat en vivo</a>
-    <a class="btnMios" href="/products">Tienda</a>
-  {{/if}}
-</div>
+    {{#if this.isAdmin}}
+      <a class="btnMios" href="/realtimeproducts">Modificar Productos</a>
+      <a class="btnMios" href="/api/users/usuarios">Gestion de usuarios</a>
+    {{else}}
+      <a class="btnMios" href="/chat">Chat en vivo</a>
+      <a class="btnMios" href="/products">Tienda</a>
+    {{/if}}
+  </div>
+</body>
+</html>
