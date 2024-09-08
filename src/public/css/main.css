@@ -92,19 +92,21 @@ a:hover {
     background-color: #d35400; 
 }
 
-/* Solo aplica estilo a los enlaces con la clase btnMios */
+
 .btnMios[href] {
     background-color: black;
-    color: #f39c12; /* Naranja */
+    color: #f39c12;
     padding: 10px 15px;
     border-radius: 5px;
     text-decoration: none;
-    display: inline-block; /* Para que siga comportándose como un enlace normal */
+    display: inline-block;
     transition: background-color 0.3s ease;
     margin-top: 10px;
 }
 
 .btnMios[href]:hover {
-    background-color: #333; /* Fondo más claro al pasar el mouse */
+    background-color: #333;
     color: white;
 }
+
+

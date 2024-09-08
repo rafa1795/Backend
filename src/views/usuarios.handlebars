@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/gestionUsuarios.css">
+    <title>Document</title>
+</head>
+<body>
 <h1>Gestión de Usuarios</h1>
 
 {{#if isAdmin}}
@@ -17,13 +26,13 @@
             <td>{{this.email}}</td>
             <td>{{this.role}}</td>
             <td>
-                <form action="/api/users/usuarios/cambiar-rol/{{this._id}}" method="POST">
-                    <select name="newRole">
-                        <option value="usuario" {{#ifCond this.role '==' 'usuario'}}selected{{/ifCond}}>User</option>
-                        <option value="admin" {{#ifCond this.role '==' 'admin'}}selected{{/ifCond}}>Admin</option>
-                    </select>
-                    <button type="submit">Cambiar Rol</button>
-                </form>
+            <form id="cambiarRolForm" action="/api/users/usuarios/cambiar-rol/{{this._id}}" method="POST">
+                <select name="newRole">
+                    <option value="usuario" {{#ifCond this.role '==' 'usuario'}}selected{{/ifCond}}>Usuario</option>
+                    <option value="admin" {{#ifCond this.role '==' 'admin'}}selected{{/ifCond}}>Admin</option>
+                </select>
+                <button type="submit">Cambiar Rol</button>
+            </form>
             </td>
         </tr>
         {{/each}}
@@ -32,5 +41,10 @@
 {{else}}
 <p>No tienes permisos para acceder a esta página.</p>
 {{/if}}
+    
+</body>
+</html>
+
+
 
 
