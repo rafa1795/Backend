@@ -47,10 +47,10 @@ class UserController {
             if (existeUsuario) {
                 return res.status(400).send("El usuario ya existe");
             }
-
+    
             const nuevoCarrito = new CartModel();
             await nuevoCarrito.save();
-
+    
             const nuevoUsuario = new UserModel({
                 first_name,
                 last_name,
@@ -59,24 +59,26 @@ class UserController {
                 password: createHash(password),
                 age
             });
-
+    
             await nuevoUsuario.save();
-
+    
             const token = jwt.sign({ user: nuevoUsuario }, "coderhouse", {
                 expiresIn: "1h"
             });
-
+    
             res.cookie("coderCookieToken", token, {
                 maxAge: 4000000,
                 httpOnly: true
             });
-
-            res.redirect("/api/users/profile");
+    
+            // Redirigir directamente al perfil del usuario con el cartId en la URL
+            res.redirect(`/api/users/profile?cartId=${nuevoCarrito._id}`);
         } catch (error) {
             console.error(error);
             res.status(500).send("Error interno del servidor");
         }
     }
+    
 
     async profile(req, res) {
         const userDto = new UserDTO(req.user.first_name, req.user.last_name, req.user.role);

@@ -9,7 +9,7 @@
 <body>
     
     <h1>Registrarse</h1>
-    <form class="formulario" action="/api/users/register" method="post">
+    <form id="registerForm" class="formulario" action="/api/users/register" method="post">
         <label for="first_name">Nombre:</label>
         <input type="text" class="inputMessi" id="first_name" name="first_name" required>
         
@@ -27,6 +27,7 @@
         
         <button class="btnMios" type="submit">Registrarse</button>
     </form>
+    <script src="/js/register.js"></script>
 </body>
 </html>
 
